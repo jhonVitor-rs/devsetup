@@ -1,0 +1,10 @@
+# git.toml
+id = "git"
+name = "Git"
+check = "git --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm git"
+deb = "sudo apt install -y git"
+mac = "brew install git"
+windows = "winget install -e --id Git.Git"

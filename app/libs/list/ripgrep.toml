@@ -1,0 +1,10 @@
+# ripgrep.toml
+id = "ripgrep"
+name = "ripgrep"
+check = "rg --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm ripgrep"
+deb = "sudo apt install -y ripgrep"
+mac = "brew install ripgrep"
+windows = "winget install -e --id BurntSushi.ripgrep.MSVC"

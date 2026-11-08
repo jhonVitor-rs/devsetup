@@ -1,0 +1,10 @@
+# nodejs.toml
+id = "node"
+name = "Node.js"
+check = "node --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm nodejs npm"
+deb = "sudo apt install -y nodejs npm"
+mac = "brew install node"
+windows = "winget install -e --id OpenJS.NodeJS.LTS"

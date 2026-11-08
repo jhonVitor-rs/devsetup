@@ -1,0 +1,10 @@
+# go.toml
+id = "go"
+name = "Go"
+check = "go version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm go"
+deb = "sudo apt install -y golang"
+mac = "brew install go"
+windows = "winget install -e --id GoLang.Go"

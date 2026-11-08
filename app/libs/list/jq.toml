@@ -1,0 +1,10 @@
+# jq.toml
+id = "jq"
+name = "jq"
+check = "jq --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm jq"
+deb = "sudo apt install -y jq"
+mac = "brew install jq"
+windows = "winget install -e --id jqlang.jq"

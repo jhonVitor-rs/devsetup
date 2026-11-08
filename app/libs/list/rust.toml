@@ -1,0 +1,10 @@
+# rust.toml
+id = "rust"
+name = "Rust"
+check = "rustc --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm rustup && rustup default stable"
+deb = "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
+mac = "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y"
+windows = "winget install -e --id Rustlang.Rustup && rustup default stable"
