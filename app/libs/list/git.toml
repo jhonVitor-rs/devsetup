@@ -1,4 +1,3 @@
-# git.toml
 id = "git"
 name = "Git"
 check = "git --version"

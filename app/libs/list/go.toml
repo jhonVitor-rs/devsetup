@@ -1,4 +1,3 @@
-# go.toml
 id = "go"
 name = "Go"
 check = "go version"

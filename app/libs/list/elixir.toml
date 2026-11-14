@@ -1,0 +1,9 @@
+id = "elixir"
+name = "Elixir"
+check = 'elixir -e "IO.puts(System.version())"'
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm elixir"
+deb = "sudo apt install -y erlang elixir"
+mac = "brew install elixir"
+windows = "winget install -e --id Erlang.ErlangOTP --accept-package-agreements --accept-source-agreements && winget install -e --id ElixirLang.Elixir --accept-package-agreements --accept-source-agreements"

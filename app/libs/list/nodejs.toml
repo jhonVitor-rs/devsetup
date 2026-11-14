@@ -1,4 +1,3 @@
-# nodejs.toml
 id = "node"
 name = "Node.js"
 check = "node --version"

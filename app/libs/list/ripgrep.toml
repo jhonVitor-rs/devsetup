@@ -1,4 +1,3 @@
-# ripgrep.toml
 id = "ripgrep"
 name = "ripgrep"
 check = "rg --version"

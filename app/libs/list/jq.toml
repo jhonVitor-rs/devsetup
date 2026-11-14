@@ -1,4 +1,3 @@
-# jq.toml
 id = "jq"
 name = "jq"
 check = "jq --version"

@@ -1,0 +1,9 @@
+id = "python"
+name = "Python"
+check = "python3 --version || python --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm python python-pip"
+deb = "sudo apt install -y python3 python3-pip python3-venv"
+mac = "brew install python"
+windows = "winget install -e --id Python.Python.3.13 --accept-package-agreements --accept-source-agreements"

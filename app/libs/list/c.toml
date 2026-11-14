@@ -1,0 +1,9 @@
+id = "gcc"
+name = "C/C++ (gcc, make, gdb)"
+check = "gcc --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm base-devel gdb cmake"
+deb = "sudo apt install -y build-essential gdb cmake"
+mac = "xcode-select --install"   # abre um diálogo do sistema; o status só atualiza depois de concluir
+windows = "winget install -e --id BrechtSanders.WinLibs.POSIX.UCRT --accept-package-agreements --accept-source-agreements"

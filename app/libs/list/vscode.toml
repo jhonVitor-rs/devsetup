@@ -1,0 +1,9 @@
+id = "vscode"
+name = "VS Code"
+check = "code --version"
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm code"
+deb = "sudo snap install code --classic"
+mac = "brew install --cask visual-studio-code"
+windows = "winget install -e --id Microsoft.VisualStudioCode --accept-package-agreements --accept-source-agreements"

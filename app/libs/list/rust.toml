@@ -1,4 +1,3 @@
-# rust.toml
 id = "rust"
 name = "Rust"
 check = "rustc --version"
