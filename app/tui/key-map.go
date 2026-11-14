@@ -7,6 +7,10 @@ type KeyMap struct {
 	openConfig key.Binding
 	openHelp   key.Binding
 	quit       key.Binding
+
+	up     key.Binding
+	down   key.Binding
+	filter key.Binding
 }
 
 func NewKeyMap() *KeyMap {
@@ -27,17 +31,19 @@ func NewKeyMap() *KeyMap {
 			key.WithKeys("esc"),
 			key.WithHelp("esc", "cancelar/sair"),
 		),
+		up:     key.NewBinding(key.WithKeys("up", "k"), key.WithHelp("↑/k", "subir")),
+		down:   key.NewBinding(key.WithKeys("down", "j"), key.WithHelp("↓/j", "descer")),
+		filter: key.NewBinding(key.WithKeys("/"), key.WithHelp("/", "filtrar")),
 	}
 }
 
 func (k *KeyMap) ShortHelp() []key.Binding {
-	return []key.Binding{
-		k.confirm, k.openConfig, k.quit,
-	}
+	return []key.Binding{k.confirm, k.filter, k.openConfig, k.openHelp, k.quit}
 }
 
 func (k *KeyMap) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
-		k.ShortHelp(),
+		{k.up, k.down, k.filter},
+		{k.confirm, k.openConfig, k.openHelp, k.quit},
 	}
 }

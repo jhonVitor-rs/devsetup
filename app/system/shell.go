@@ -18,6 +18,16 @@ func (s *System) ShellCmd(ctx context.Context, command string) *exec.Cmd {
 	return exec.CommandContext(ctx, "sh", "-c", command)
 }
 
+func (s *System) NeedsSudo(lib libs.Lib) bool {
+	return s.Type != Windows && strings.Contains(lib.Install[string(s.Type)], "sudo")
+}
+
+func (s *System) CheckSudo(password string) bool {
+	cmd := exec.Command("sudo", "-S", "-p", "", "-v")
+	cmd.Stdin = strings.NewReader(password + "\n")
+	return cmd.Run() == nil
+}
+
 func (s *System) RunCheck(lib libs.Lib) libs.LibStatus {
 	st := libs.LibStatus{Lib: lib}
 	if lib.Check == "" {
@@ -50,10 +60,21 @@ func (s *System) CheckAll(list []libs.Lib) []libs.LibStatus {
 	return out
 }
 
-func (s *System) InstallCmd(lib libs.Lib) (*exec.Cmd, error) {
+func (s *System) RunInstall(lib libs.Lib, password string) (string, error) {
 	command, ok := lib.Install[string(s.Type)]
 	if !ok || command == "" {
-		return nil, fmt.Errorf("%s não tem instalação definida para %s", lib.Name, s.Type)
+		return "", fmt.Errorf("%s não tem instalação definida para %s", lib.Name, s.Type)
 	}
-	return s.ShellCmd(context.Background(), command), nil
+
+	script := command
+	if s.NeedsSudo(lib) {
+		script = `sudo() { command sudo -S -p '' "$@"; }; ` + command
+	}
+
+	cmd := s.ShellCmd(context.Background(), script)
+	if password != "" {
+		cmd.Stdin = strings.NewReader(password + "\n")
+	}
+	out, err := cmd.CombinedOutput()
+	return string(out), err
 }

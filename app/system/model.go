@@ -100,3 +100,17 @@ func parseOSRelease(r io.Reader) (SystemType, error) {
 	}
 	return "", fmt.Errorf("distro não suportada: %s", id)
 }
+
+func (t SystemType) Label() string {
+	switch t {
+	case LinuxArc:
+		return "Linux (Arch/Manjaro)"
+	case LinuxDeb:
+		return "Linux (Debian/Ubuntu)"
+	case Mac:
+		return "macOS"
+	case Windows:
+		return "Windows"
+	}
+	return string(t)
+}
