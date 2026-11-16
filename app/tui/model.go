@@ -135,6 +135,14 @@ func (a *App) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if a.busy() {
 			return a, nil
 		}
+		if missing := a.missingRequirements(msg.Lib.Lib); len(missing) > 0 {
+			a.currentJob = &Job{
+				Lib:   msg.Lib,
+				State: JobFailed,
+				Err:   fmt.Errorf("requer %s: instale antes", strings.Join(missing, ", ")),
+			}
+			break
+		}
 		a.currentJob = &Job{Lib: msg.Lib, State: JobPending}
 		cmds = append(cmds, a.start())
 
@@ -216,6 +224,34 @@ func (a *App) install(lib libs.Lib, pass string) tea.Cmd {
 		out, err := sys.RunInstall(lib, pass)
 		return installDoneMsg{ID: lib.ID, Err: err, Output: out, Status: sys.RunCheck(lib)}
 	}
+}
+
+func (a *App) missingRequirements(lib libs.Lib) []string {
+	if len(lib.Require) == 0 {
+		return nil
+	}
+
+	installed := map[string]bool{}
+	names := map[string]string{}
+	for _, it := range a.list.Items() {
+		if ls, ok := it.(libs.LibStatus); ok {
+			installed[ls.Lib.ID] = ls.Installed
+			names[ls.Lib.ID] = ls.Lib.Name
+		}
+	}
+
+	var missing []string
+	for _, id := range lib.Require {
+		if installed[id] {
+			continue
+		}
+		name := names[id]
+		if name == "" {
+			name = id
+		}
+		missing = append(missing, name)
+	}
+	return missing
 }
 
 func (a *App) busy() bool {

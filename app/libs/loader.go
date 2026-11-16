@@ -46,5 +46,58 @@ func Loader() ([]Lib, error) {
 
 		libs = append(libs, lib)
 	}
+
+	for _, l := range libs {
+		for _, id := range l.Require {
+			if id == l.ID {
+				return nil, fmt.Errorf("%s: não pode requerer a si mesma", l.ID)
+			}
+			if !seen[id] {
+				return nil, fmt.Errorf("%s: require aponta para %q, que não existe", l.ID, id)
+			}
+		}
+	}
+	if err := checkCycles(libs); err != nil {
+		return nil, err
+	}
+
 	return libs, nil
+}
+
+func checkCycles(list []Lib) error {
+	deps := map[string][]string{}
+	for _, l := range list {
+		deps[l.ID] = l.Require
+	}
+
+	const (
+		visiting = 1
+		done     = 2
+	)
+	state := map[string]int{}
+
+	var visit func(id string) error
+	visit = func(id string) error {
+		switch state[id] {
+		case visiting:
+			return fmt.Errorf("dependência circular envolvendo %q", id)
+		case done:
+			return nil
+		}
+		state[id] = visiting
+		for _, dep := range deps[id] {
+			if err := visit(dep); err != nil {
+				return err
+			}
+		}
+		state[id] = done
+		return nil
+	}
+
+	for _, l := range list {
+		if err := visit(l.ID); err != nil {
+			return err
+		}
+	}
+	return nil
 }

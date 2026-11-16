@@ -1,0 +1,10 @@
+id = "yarn"
+name = "Yarn"
+check = "yarn --version"
+require = ["node"]
+
+[install]
+arc = "sudo pacman -S --needed --noconfirm yarn"
+deb = "sudo npm install -g yarn"
+mac = "npm install -g yarn"
+windows = "npm install -g yarn"

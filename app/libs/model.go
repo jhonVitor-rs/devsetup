@@ -4,6 +4,7 @@ type Lib struct {
 	ID      string            `toml:"id"`
 	Name    string            `toml:"name"`
 	Check   string            `toml:"check"`
+	Require []string          `toml:"require"`
 	Install map[string]string `toml:"install"`
 }
 

@@ -1,0 +1,9 @@
+id = "docker"
+name = "Docker"
+check = "docker --version"
+
+[install]
+arc = "sudo sh -c 'pacman -S --needed --noconfirm docker docker-compose docker-buildx && systemctl enable --now docker.service && usermod -aG docker $SUDO_USER'"
+deb = "sudo sh -c 'apt-get install -y curl ca-certificates && curl -fsSL https://get.docker.com -o /tmp/get-docker.sh && sh /tmp/get-docker.sh && usermod -aG docker $SUDO_USER'"
+mac = "brew install docker docker-compose colima"
+windows = "winget install -e --id Docker.DockerDesktop --accept-package-agreements --accept-source-agreements"
